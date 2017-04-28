@@ -1,11 +1,15 @@
 package tech.gab.web.management.project_management.entities;
 
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -49,7 +53,10 @@ public class Project {
 
 	@Column(nullable = false)
 	private Status status = Status.INITIALIZED;
-
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="project")
+	private Set<Resource> resources = new HashSet<Resource>();
+	
 	public String getPep() {
 		return pep;
 	}
@@ -120,5 +127,9 @@ public class Project {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public Set<Resource> getResources() {
+		return resources;
 	}
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import tech.gab.web.management.project_management.services.EmployeeService;
 import tech.gab.web.management.project_management.services.ProjectService;
 
 @Controller
@@ -14,10 +15,13 @@ public class MainController {
 
 	private static final Log log = LogFactory.getLog(MainController.class);
 	
+	private EmployeeService employeeService;
 	private ProjectService projectService;
 	
 	@Autowired
-	public MainController(ProjectService projectService) {
+	public MainController(EmployeeService employeeService,
+			ProjectService projectService) {
+		this.employeeService = employeeService;
 		this.projectService = projectService;
 	}
 	
@@ -27,12 +31,18 @@ public class MainController {
 	}
 	
 	@RequestMapping("/projects")
-	public String projectList(Model model){
+	public String projects(Model model){
 		
 		model.addAttribute("projects", projectService.listProjects());
 		
 		return "project/list";
 	}
 	
-	
+	@RequestMapping("/employees")
+	public String employees(Model model){
+		
+		model.addAttribute("employees", employeeService.listEmployees());
+		
+		return "employee/list";
+	}
 }
